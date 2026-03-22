@@ -1,0 +1,30 @@
+{
+  "validCheckout": {
+    "firstName": "Israt",
+    "lastName": "Jahan",
+    "postalCode": "1207"
+  },
+  "invalidCheckout": [
+    {
+      "label": "missing first name",
+      "firstName": "",
+      "lastName": "Jahan",
+      "postalCode": "1207",
+      "expectedError": "Error: First Name is required"
+    },
+    {
+      "label": "missing last name",
+      "firstName": "Israt",
+      "lastName": "",
+      "postalCode": "1207",
+      "expectedError": "Error: Last Name is required"
+    },
+    {
+      "label": "missing postal code",
+      "firstName": "Israt",
+      "lastName": "Jahan",
+      "postalCode": "",
+      "expectedError": "Error: Postal Code is required"
+    }
+  ]
+}
