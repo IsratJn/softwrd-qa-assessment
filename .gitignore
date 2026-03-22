@@ -5,9 +5,6 @@ node_modules/
 .env
 
 # Playwright
-playwright/.cache/
-
-# Playwright
 /test-results/
 /playwright-report/
 /blob-report/
