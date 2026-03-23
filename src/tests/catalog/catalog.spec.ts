@@ -11,60 +11,69 @@ test.describe("Product Catalog", () => {
     await loginPage.loginSuccessfully(ENV.users.standard);
   });
 
-  test("should display correct number of products", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.assertProductCount(productsData.expectedProductCount);
+  test.describe("product listing", () => {
+    test("should display correct number of products", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.assertProductCount(productsData.expectedProductCount);
+    });
+
+    test("all expected product names should be visible", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      const names = await inventoryPage.getProductNames();
+      expect(names).toEqual(
+        expect.arrayContaining(
+          productsData.expectedProducts.map((p) => p.name),
+        ),
+      );
+    });
+
+    test("all product prices should match expected values", async ({
+      page,
+    }) => {
+      const inventoryPage = new InventoryPage(page);
+      const prices = await inventoryPage.getProductPrices();
+      const expectedPrices = productsData.expectedProducts.map((p) => p.price);
+      expect(prices.sort()).toEqual(expectedPrices.sort());
+    });
   });
 
-  test("all expected product names should be visible", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    const names = await inventoryPage.getProductNames();
-    for (const product of productsData.expectedProducts) {
-      expect(names).toContain(product.name);
-    }
+  test.describe("sorting", () => {
+    test("sort by Name A→Z", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.sortBy("az");
+      await inventoryPage.assertSortedByNameAscending();
+    });
+
+    test("sort by Name Z→A", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.sortBy("za");
+      await inventoryPage.assertSortedByNameDescending();
+    });
+
+    test("sort by Price Low→High", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.sortBy("lohi");
+      await inventoryPage.assertSortedByPriceAscending();
+    });
+
+    test("sort by Price High→Low", async ({ page }) => {
+      const inventoryPage = new InventoryPage(page);
+      await inventoryPage.sortBy("hilo");
+      await inventoryPage.assertSortedByPriceDescending();
+    });
   });
 
-  test("all product prices should be positive numbers", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    const prices = await inventoryPage.getProductPrices();
-    for (const price of prices) {
-      expect(price).toBeGreaterThan(0);
-    }
-  });
-
-  test("sort by Name A→Z", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.sortBy("az");
-    await inventoryPage.assertSortedByNameAscending();
-  });
-
-  test("sort by Name Z→A", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.sortBy("za");
-    await inventoryPage.assertSortedByNameDescending();
-  });
-
-  test("sort by Price Low→High", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.sortBy("lohi");
-    await inventoryPage.assertSortedByPriceAscending();
-  });
-
-  test("sort by Price High→Low", async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await inventoryPage.sortBy("hilo");
-    await inventoryPage.assertSortedByPriceDescending();
-  });
-
-  test("problem_user should have mismatched product images", async ({
-    page,
-  }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
-    await loginPage.navigate();
-    await loginPage.loginSuccessfully(ENV.users.problem);
-    const srcs = await inventoryPage.getProductImageSrcs();
-    const uniqueSrcs = new Set(srcs);
-    expect(uniqueSrcs.size).toBe(1);
+  test.describe("visual regression", () => {
+    test("problem_user should have mismatched product images", async ({
+      page,
+    }) => {
+      const loginPage = new LoginPage(page);
+      const inventoryPage = new InventoryPage(page);
+      await loginPage.navigate();
+      await loginPage.loginSuccessfully(ENV.users.problem);
+      const srcs = await inventoryPage.getProductImageSrcs();
+      const uniqueSrcs = new Set(srcs);
+      expect(uniqueSrcs.size).toBe(1);
+    });
   });
 });

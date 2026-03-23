@@ -41,8 +41,10 @@ export class InventoryPage extends BasePage {
   }
 
   async addToCartByName(productName: string): Promise<void> {
-    const item = this.productItems.filter({ hasText: productName });
-    await item.locator("button").click();
+    await this.productItems
+      .filter({ hasText: productName })
+      .locator('[data-test^="add-to-cart"]')
+      .click();
   }
 
   async addMultipleToCart(productNames: string[]): Promise<void> {
@@ -96,26 +98,34 @@ export class InventoryPage extends BasePage {
   }
 
   async assertSortedByNameAscending(): Promise<void> {
-    const names = await this.getProductNames();
-    const sorted = [...names].sort((a, b) => a.localeCompare(b));
-    expect(names).toEqual(sorted);
+    await expect
+      .poll(async () => await this.getProductNames())
+      .toEqual(
+        (await this.getProductNames())
+          .slice()
+          .sort((a, b) => a.localeCompare(b)),
+      );
   }
 
   async assertSortedByNameDescending(): Promise<void> {
-    const names = await this.getProductNames();
-    const sorted = [...names].sort((a, b) => b.localeCompare(a));
-    expect(names).toEqual(sorted);
+    await expect
+      .poll(async () => await this.getProductNames())
+      .toEqual(
+        (await this.getProductNames())
+          .slice()
+          .sort((a, b) => b.localeCompare(a)),
+      );
   }
 
   async assertSortedByPriceAscending(): Promise<void> {
-    const prices = await this.getProductPrices();
-    const sorted = [...prices].sort((a, b) => a - b);
-    expect(prices).toEqual(sorted);
+    await expect
+      .poll(async () => await this.getProductPrices())
+      .toEqual((await this.getProductPrices()).slice().sort((a, b) => a - b));
   }
 
   async assertSortedByPriceDescending(): Promise<void> {
-    const prices = await this.getProductPrices();
-    const sorted = [...prices].sort((a, b) => b - a);
-    expect(prices).toEqual(sorted);
+    await expect
+      .poll(async () => await this.getProductPrices())
+      .toEqual((await this.getProductPrices()).slice().sort((a, b) => b - a));
   }
 }
