@@ -50,6 +50,8 @@ export class LoginPage extends BasePage {
 
   async assertOnLoginPage(): Promise<void> {
     await expect(this.loginButton).toBeVisible();
+    await expect(this.usernameInput).toBeVisible();
+    await this.assertUrlContains("saucedemo.com");
   }
 
   async assertNoError(): Promise<void> {
