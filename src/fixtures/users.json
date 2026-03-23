@@ -1,25 +1,10 @@
 {
   "users": {
-    "standard": {
-      "username": "standard_user",
-      "password": "secret_sauce"
-    },
-    "lockedOut": {
-      "username": "locked_out_user",
-      "password": "secret_sauce"
-    },
-    "problem": {
-      "username": "problem_user",
-      "password": "secret_sauce"
-    },
-    "performanceGlitch": {
-      "username": "performance_glitch_user",
-      "password": "secret_sauce"
-    },
-    "error": {
-      "username": "error_user",
-      "password": "secret_sauce"
-    }
+    "standard": { "username": "standard_user" },
+    "lockedOut": { "username": "locked_out_user" },
+    "problem": { "username": "problem_user" },
+    "performanceGlitch": { "username": "performance_glitch_user" },
+    "error": { "username": "error_user" }
   },
   "invalidCredentials": [
     {
@@ -27,21 +12,9 @@
       "username": "standard_user",
       "password": "wrong_password"
     },
-    {
-      "label": "empty username",
-      "username": "",
-      "password": "secret_sauce"
-    },
-    {
-      "label": "empty password",
-      "username": "standard_user",
-      "password": ""
-    },
-    {
-      "label": "both empty",
-      "username": "",
-      "password": ""
-    },
+    { "label": "empty username", "username": "", "password": "secret_sauce" },
+    { "label": "empty password", "username": "standard_user", "password": "" },
+    { "label": "both empty", "username": "", "password": "" },
     {
       "label": "SQL injection in username",
       "username": "' OR '1'='1",
