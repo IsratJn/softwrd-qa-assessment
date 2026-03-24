@@ -47,6 +47,13 @@ export class InventoryPage extends BasePage {
       .click();
   }
 
+  async removeFromCartByName(productName: string): Promise<void> {
+    await this.productItems
+      .filter({ hasText: productName })
+      .locator('[data-test^="remove"]')
+      .click();
+  }
+
   async addMultipleToCart(productNames: string[]): Promise<void> {
     for (const name of productNames) {
       await this.addToCartByName(name);

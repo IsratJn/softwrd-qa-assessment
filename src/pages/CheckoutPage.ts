@@ -55,6 +55,10 @@ export class CheckoutPage extends BasePage {
     await this.continue();
   }
 
+  async clickFinish(): Promise<void> {
+    await this.finishButton.click();
+  }
+
   async finish(): Promise<void> {
     await this.finishButton.click();
     await this.assertUrlContains("checkout-complete");

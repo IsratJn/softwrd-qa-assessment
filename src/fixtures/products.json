@@ -7,5 +7,15 @@
     { "name": "Sauce Labs Fleece Jacket", "price": 49.99 },
     { "name": "Sauce Labs Onesie", "price": 7.99 },
     { "name": "Test.allTheThings() T-Shirt (Red)", "price": 15.99 }
+  ],
+  "errorUserBrokenProducts": [
+    "Sauce Labs Bolt T-Shirt",
+    "Sauce Labs Fleece Jacket",
+    "Test.allTheThings() T-Shirt (Red)"
+  ],
+  "errorUserWorkingProducts": [
+    "Sauce Labs Backpack",
+    "Sauce Labs Bike Light",
+    "Sauce Labs Onesie"
   ]
 }
