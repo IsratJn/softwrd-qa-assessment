@@ -1,6 +1,10 @@
 # softwrd-qa-assessment
 
+![Playwright Tests](https://github.com/IsratJn/softwrd-qa-assessment/actions/workflows/ci.yml/badge.svg)
+
 Production-grade test automation framework for [SauceDemo](https://www.saucedemo.com) built with Playwright and TypeScript.
+
+---
 
 ## 1. Framework Choice & Rationale
 
@@ -11,6 +15,16 @@ Playwright was chosen over Selenium and Cypress for three specific reasons relev
 - **Built-in auto-waiting** — SauceDemo has a `performance_glitch_user` that introduces 5–8 second delays. Playwright's retry-based assertions handle this natively without hardcoded sleeps, which is exactly the kind of real-world resilience a production framework needs.
 - **Multi-browser support out of the box** — Chromium, Firefox, and WebKit run from a single config with no extra setup. The CI pipeline runs all three; local runs default to Chromium for speed.
 - **TypeScript** — adds type safety across page objects and fixtures, catches errors at compile time rather than at runtime, and makes the codebase easier to navigate and maintain.
+
+**Alternatives considered:**
+
+| Tool              | Why not chosen                                                                            |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| Selenium + Python | More boilerplate, slower execution, no built-in auto-wait                                 |
+| Cypress           | No native multi-tab/multi-origin support, limited to Chromium-based browsers in free tier |
+| WebdriverIO       | More configuration overhead for the same outcome                                          |
+
+---
 
 ## 2. Architecture Overview
 
@@ -127,3 +141,15 @@ The pipeline is defined in `.github/workflows/ci.yml` and triggers on every push
 | **Shopping Cart**            | Add single item, add multiple items, remove item, cart persistence across navigation, badge sync after removal, empty cart state                                                                                                                                                                    |
 | **Checkout**                 | Full purchase flow (single and multiple items), missing required field validation (first name, last name, postal code), order summary math verification (subtotal + tax = total), item name validation in summary, multi-item subtotal aggregation, post-order confirmation screen                  |
 | **Performance & Resilience** | `performance_glitch_user` login with smart waits, `error_user` add-to-cart failures, remove button failure on inventory page, remove from cart page (works correctly), sorting error dialog, last name field non-interactive, silent checkout continuation without last name, finish button failure |
+
+### What is intentionally excluded
+
+- **Visual regression screenshots** — pixel-level visual testing requires a baseline image service (Percy, Applitools). The `problem_user` image bug is instead detected programmatically by comparing `src` attributes, which is more reliable and doesn't require external tooling.
+- **API-level tests** — SauceDemo has no documented public API. All testing is UI-based.
+- **Cross-origin flows** — SauceDemo is a single-origin application; no cross-origin scenarios exist.
+
+### A note on error_user
+
+Rather than writing generic "error user fails" tests, the `error_user` scenarios were derived from manual exploratory testing of the application. Each test documents a specific, observed failure mode — which products fail to add, which UI interactions are broken, and how the checkout flow degrades. This makes the test suite act as living bug documentation, not just pass/fail coverage.
+
+---
