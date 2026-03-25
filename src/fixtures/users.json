@@ -10,15 +10,32 @@
     {
       "label": "wrong password",
       "username": "standard_user",
-      "password": "wrong_password"
+      "password": "wrong_password",
+      "expectedError": "Epic sadface: Username and password do not match any user in this service"
     },
-    { "label": "empty username", "username": "", "password": "secret_sauce" },
-    { "label": "empty password", "username": "standard_user", "password": "" },
-    { "label": "both empty", "username": "", "password": "" },
+    {
+      "label": "empty username",
+      "username": "",
+      "password": "secret_sauce",
+      "expectedError": "Epic sadface: Username is required"
+    },
+    {
+      "label": "empty password",
+      "username": "standard_user",
+      "password": "",
+      "expectedError": "Epic sadface: Password is required"
+    },
+    {
+      "label": "both empty",
+      "username": "",
+      "password": "",
+      "expectedError": "Epic sadface: Username is required"
+    },
     {
       "label": "SQL injection in username",
       "username": "' OR '1'='1",
-      "password": "secret_sauce"
+      "password": "secret_sauce",
+      "expectedError": "Epic sadface: Username and password do not match any user in this service"
     }
   ]
 }

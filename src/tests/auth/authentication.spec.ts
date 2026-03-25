@@ -10,9 +10,11 @@ test.describe("Authentication", () => {
   test.describe("successful login", () => {
     test("standard_user logs in and lands on inventory page", async ({
       loginPage,
+      inventoryPage,
     }) => {
       await loginPage.loginSuccessfully(ENV.users.standard);
       await expect(loginPage.page).toHaveURL(/inventory/);
+      await inventoryPage.assertOnInventoryPage();
     });
   });
 
@@ -23,7 +25,7 @@ test.describe("Authentication", () => {
           username: scenario.username,
           password: scenario.password,
         });
-        await loginPage.assertErrorMessage("Epic sadface");
+        await loginPage.assertErrorMessage(scenario.expectedError);
         await loginPage.assertOnLoginPage();
       });
     }
@@ -47,7 +49,9 @@ test.describe("Authentication", () => {
         username: "' OR '1'='1",
         password: "secret_sauce",
       });
-      await loginPage.assertErrorMessage("Username and password do not match");
+      await loginPage.assertErrorMessage(
+        "Username and password do not match any user",
+      );
     });
   });
 
@@ -91,7 +95,7 @@ test.describe("Authentication", () => {
 
     test("error banner can be dismissed", async ({ loginPage }) => {
       await loginPage.login({ username: "", password: "" });
-      await loginPage.assertErrorMessage("Epic sadface");
+      await loginPage.assertErrorMessage("Username is required");
       await loginPage.closeError();
       await loginPage.assertNoError();
     });
