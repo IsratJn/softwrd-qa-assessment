@@ -33,9 +33,7 @@ test.describe("Error User", () => {
 
   test.describe("add to cart errors", () => {
     for (const product of productsData.errorUserBrokenProducts) {
-      test(`${product} — add to cart fails silently`, async ({
-        inventoryPage,
-      }) => {
+      test(`${product} — add to cart fails`, async ({ inventoryPage }) => {
         const before = await inventoryPage.getCartCount();
         await inventoryPage.addToCartByName(product);
         const after = await inventoryPage.getCartCount();
