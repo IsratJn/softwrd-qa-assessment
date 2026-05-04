@@ -1,6 +1,6 @@
-# softwrd-qa-assessment
+# sauce-demo-automation
 
-![Playwright Tests](https://github.com/IsratJn/softwrd-qa-assessment/actions/workflows/ci.yml/badge.svg)
+![Playwright Tests](https://github.com/IsratJn/sauce-demo-automation/actions/workflows/ci.yml/badge.svg)
 
 Production-grade test automation framework for [SauceDemo](https://www.saucedemo.com) built with Playwright and TypeScript.
 
@@ -73,8 +73,8 @@ src/
 ### Installation
 
 ```bash
-git clone https://github.com/IsratJn/softwrd-qa-assessment.git
-cd softwrd-qa-assessment
+git clone https://github.com/IsratJn/sauce-demo-automation.git
+cd sauce-demo-automation
 npm install
 npx playwright install --with-deps chromium
 ```
@@ -124,7 +124,7 @@ The pipeline is defined in `.github/workflows/ci.yml` and triggers on every push
 
 **Credentials** are stored as GitHub Actions repository secrets — never in code.
 
-**To view the pipeline:** go to the [Actions tab](https://github.com/IsratJn/softwrd-qa-assessment/actions) on GitHub.
+**To view the pipeline:** go to the [Actions tab](https://github.com/IsratJn/sauce-demo-automation/actions) on GitHub.
 
 **To download the test report:** open any completed workflow run → scroll to Artifacts → download `playwright-report`.
 
